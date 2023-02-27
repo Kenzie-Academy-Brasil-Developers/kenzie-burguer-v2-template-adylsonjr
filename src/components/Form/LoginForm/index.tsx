@@ -1,6 +1,5 @@
 import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
-import { SubmitHandler } from 'react-hook-form/dist/types';
 import { ILoginFormValues } from '../../../providers/UserContext/@Types';
 import { UserContext } from '../../../providers/UserContext/UserContext';
 import { StyledButton } from '../../../styles/button';
@@ -16,7 +15,7 @@ const LoginForm = () => {
 
   const {userLogin} = useContext(UserContext)
 
-  const submit: SubmitHandler<ILoginFormValues> = (formData)=>{
+  const submit = (formData:ILoginFormValues)=>{
     userLogin(formData)
   }
   return (
