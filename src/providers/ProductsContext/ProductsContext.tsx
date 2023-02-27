@@ -14,10 +14,11 @@ interface IProductsContext{
   countProduct: number,
   search: string,
   setSearch: React.Dispatch<React.SetStateAction<string>>
-  addProductToCartList: (product: IProductCart) => void
+  addProductToCartList: (product: IProduct) => void
   removeProductFromCartList: (productId: string) => void
   removeAllProductsFromCartList: () => void
   searchProductsList:  IProduct[]
+  totalValue: number
 }
 
 
@@ -31,8 +32,17 @@ export const ProductsProvider = ({children}:IDefaultProviderProps)=>{
   const [countProduct, setCountProduct] = useState(1)
   const [search, setSearch] = useState("")
 
+  const totalValue = cartList.reduce((acum: number, currt: { price: number; amount: number; }) => {
+    let value = 0
+    value = currt.price * currt.amount
+
+    return acum + value
+}, 0)
+
   const searchProductsList = products.filter((product) => search === "" ? true : (product.name.toLocaleLowerCase()).includes(search.toLocaleLowerCase()) ||
       (product.category.toLocaleLowerCase()).includes(search.toLocaleLowerCase()))
+
+      
 
   const listProducts = async ()=>{
     const token = localStorage.getItem("@TOKEN")
@@ -56,7 +66,7 @@ export const ProductsProvider = ({children}:IDefaultProviderProps)=>{
     localStorage.setItem("@KenzieBurguerCartList", JSON.stringify(cartList));
   }, [cartList])
 
-  const addProductToCartList = (product:IProductCart) => {
+  const addProductToCartList = (product:IProduct) => {
 
 
     if (!cartList.includes(product)) {
@@ -88,7 +98,7 @@ export const ProductsProvider = ({children}:IDefaultProviderProps)=>{
 
 
   return(
-    <ProductsContext.Provider value={{cartModal, setCartModal, products, localCartList, cartList, setCartList, setCountProduct, countProduct, search, setSearch, addProductToCartList,removeProductFromCartList, removeAllProductsFromCartList, searchProductsList }}>
+    <ProductsContext.Provider value={{cartModal, setCartModal, products, localCartList, cartList, setCartList, setCountProduct, countProduct, search, setSearch, addProductToCartList,removeProductFromCartList, removeAllProductsFromCartList, searchProductsList, totalValue }}>
       {children}
     </ProductsContext.Provider>
   )

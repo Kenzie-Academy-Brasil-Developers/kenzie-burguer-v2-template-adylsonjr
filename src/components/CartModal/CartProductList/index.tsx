@@ -8,14 +8,7 @@ import { IProductCart } from '../../../providers/ProductsContext/Types';
 
 
 const CartProductList = () => {
-  const {cartList, removeAllProductsFromCartList} = useContext(ProductsContext)
-
-  const totalValue = cartList.reduce((acum: number, currt: { price: number; amount: number; }) => {
-    let value = 0
-    value = currt.price * currt.amount
-
-    return acum + value
-}, 0)
+  const {cartList, removeAllProductsFromCartList, totalValue} = useContext(ProductsContext)
 
   return(
   <StyledCartProductList>
