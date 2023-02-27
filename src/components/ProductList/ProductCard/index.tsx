@@ -1,23 +1,32 @@
+import { useContext } from 'react';
 import { StyledProductCard } from './style';
 import { StyledButton } from '../../../styles/button';
 import { StyledParagraph, StyledTitle } from '../../../styles/typography';
+import { IProduct } from '../../../providers/ProductsContext/Types';
+import { ProductsContext } from '../../../providers/ProductsContext/ProductsContext';
 
-const ProductCard = () => (
+
+const ProductCard = ( {product}:{product:IProduct} ) => {
+
+  const {addProductToCartList} = useContext(ProductsContext)
+
+  return(
   <StyledProductCard>
     <div className='imageBox'>
-      <img src='https://i.imgur.com/Vng6VzV.png' alt='Hamburguer' />
+      <img src={product.img} alt={product.name} />
     </div>
     <div className='content'>
       <StyledTitle tag='h3' $fontSize='three'>
-        Hamburguer
+        {product.name}
       </StyledTitle>
-      <StyledParagraph className='category'>Sanduíches</StyledParagraph>
-      <StyledParagraph className='price'>R$ 14,00</StyledParagraph>
-      <StyledButton $buttonSize='medium' $buttonStyle='green'>
+      <StyledParagraph className='category'>{product.category}</StyledParagraph>
+      <StyledParagraph className='price'>R${product.price.toFixed(2)}</StyledParagraph>
+      <StyledButton onClick={()=> addProductToCartList(product)} $buttonSize='medium' $buttonStyle='green'>
         Adicionar
       </StyledButton>
     </div>
   </StyledProductCard>
-);
+  )
+};
 
 export default ProductCard;
