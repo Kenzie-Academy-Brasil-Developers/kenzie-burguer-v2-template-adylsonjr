@@ -8,12 +8,10 @@ export interface IProduct{
   price: number,
   img: string,
   category: string,
-  amount?: number,
-  uuid?: string
+  uuid: string 
 }
 
 export interface IProductCart{
-  amount: number,
   category: string,
   id: number,
   img: string,

@@ -2,10 +2,10 @@ import { MdDelete } from 'react-icons/md';
 import { useContext } from 'react';
 import { StyledCartProductCard } from './style';
 import { StyledTitle } from '../../../../styles/typography';
-import { IProductCart } from '../../../../providers/ProductsContext/Types';
+import { IProduct } from '../../../../providers/ProductsContext/Types';
 import { ProductsContext } from '../../../../providers/ProductsContext/ProductsContext';
 
-const CartProductCard = ({product}:{product:IProductCart}) => {
+const CartProductCard = ({product}:{product:IProduct}) => {
 
   const {removeProductFromCartList} = useContext(ProductsContext)
 
@@ -21,7 +21,6 @@ const CartProductCard = ({product}:{product:IProductCart}) => {
       <button onClick={()=>removeProductFromCartList(product.uuid)} type='button' aria-label='Remover'>
         <MdDelete size={24} />
       </button>
-      <span>{product.amount}</span>
     </div>
   </StyledCartProductCard>
   )

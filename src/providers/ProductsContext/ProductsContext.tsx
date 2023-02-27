@@ -10,13 +10,13 @@ interface IProductsContext {
   setCartModal: React.Dispatch<React.SetStateAction<boolean>>;
   products: IProduct[] | [];
   localCartList: string | null;
-  cartList: IProductCart[] | [];
+  cartList: IProduct[] | [];
   setCartList: React.Dispatch<IProduct[] | []>;
   setCountProduct: React.Dispatch<React.SetStateAction<number>>;
   countProduct: number;
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
-  addProductToCartList: (product: IProductCart) => void;
+  addProductToCartList: (product: IProduct) => void;
   removeProductFromCartList: (productId: string) => void;
   removeAllProductsFromCartList: () => void;
   searchProductsList: IProduct[];
@@ -36,12 +36,7 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
   const [search, setSearch] = useState('');
 
   const totalValue = cartList.reduce(
-    (acum: number, currt: { price: number; amount: number }) => {
-      let value = 0;
-      value = currt.price * currt.amount;
-
-      return acum + value;
-    },
+    (acum: number, currt: { price: number }) => acum + currt.price,
     0
   );
 
@@ -76,20 +71,16 @@ export const ProductsProvider = ({ children }: IDefaultProviderProps) => {
     localStorage.setItem('@KenzieBurguerCartList', JSON.stringify(cartList));
   }, [cartList]);
 
-  const addProductToCartList = (product: IProductCart) => {
+  const addProductToCartList = (product: IProduct) => {
     if (!cartList.includes(product)) {
       setCartList([...cartList, product]);
-      product.amount = 1;
       product.uuid = uuidv4();
-    } else {
-      setCountProduct(product.amount + 1);
-      product.amount += 1;
     }
   };
 
   const removeProductFromCartList = (productId: string) => {
     const newCartList = cartList.filter(
-      (product:IProductCart) => product.uuid !== productId
+      (product: IProductCart) => product.uuid !== productId
     );
     setCartList(newCartList);
   };
